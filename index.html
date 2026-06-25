@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FounderOS — AI Coding Bootcamp for Non-Technical Founders</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563EB'/%3E%3Cstop offset='100%25' stop-color='%2314B8A6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='url(%23g)'/%3E%3Cpath d='M11 13h10M11 16h7M11 19h8' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='11' r='2.5' fill='%23F4C542'/%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root,[data-theme=dark]{--bg:#0B0B10;--sf:#171923;--sf2:#1E2130;--s:#2563EB;--t:#14B8A6;--v:#7C3AED;--g:#F4C542;--tx:#F8FAFC;--mu:#94A3B8;--bd:rgba(248,250,252,0.07);--bds:rgba(248,250,252,0.13);--gl:rgba(255,255,255,0.035);--glm:rgba(255,255,255,0.06);--gls:rgba(255,255,255,0.09);--sc:0 4px 24px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.04)inset;--sl:0 20px 60px rgba(0,0,0,.55),0 4px 16px rgba(0,0,0,.4);--sb:0 0 0 1px rgba(37,99,235,.3),0 4px 20px rgba(37,99,235,.3),0 8px 40px rgba(37,99,235,.12);--nb:rgba(11,11,16,.65);--ns:rgba(11,11,16,.92);--cb:#1a1f35;--aop:.13;--gb:linear-gradient(135deg,#2563EB,#14B8A6);--gv:linear-gradient(135deg,#7C3AED,#2563EB);--gh:linear-gradient(135deg,#2563EB 0%,#14B8A6 45%,#7C3AED 100%);--dop:.08;--cc:#14B8A6;--mbd:rgba(248,250,252,.06)}
+[data-theme=light]{--bg:#FAFAF7;--sf:#FFFFFF;--sf2:#F1F5F9;--s:#2563EB;--t:#0D9488;--v:#7C3AED;--g:#D97706;--tx:#111827;--mu:#6B7280;--bd:rgba(17,24,39,.09);--bds:rgba(17,24,39,.16);--gl:rgba(255,255,255,.72);--glm:rgba(255,255,255,.85);--gls:rgba(255,255,255,.95);--sc:0 1px 3px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04);--sl:0 12px 40px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);--sb:0 4px 20px rgba(37,99,235,.25),0 1px 4px rgba(37,99,235,.2);--nb:rgba(250,250,247,.75);--ns:rgba(250,250,247,.95);--cb:#1a1f35;--aop:.06;--gb:linear-gradient(135deg,#2563EB,#0D9488);--gv:linear-gradient(135deg,#7C3AED,#2563EB);--gh:linear-gradient(135deg,#2563EB 0%,#0D9488 45%,#7C3AED 100%);--dop:.12;--cc:#2563EB;--mbd:rgba(17,24,39,.08)}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden;cursor:none;transition:background .4s,color .4s}
+#cursor{position:fixed;width:10px;height:10px;background:var(--cc);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .3s;box-shadow:0 0 16px var(--cc),0 0 32px rgba(20,184,166,.3)}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(20,184,166,.35);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:border-color .3s,width .25s,height .25s}
+#spotlight{position:fixed;width:480px;height:480px;background:radial-gradient(circle,rgba(37,99,235,.055) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
+.bg-canvas{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 70% at 15% 15%,rgba(37,99,235,.18) 0%,transparent 55%),radial-gradient(ellipse 70% 70% at 85% 85%,rgba(124,58,237,.14) 0%,transparent 55%),var(--bg);transition:background .5s}
+[data-theme=light] .bg-canvas{background:radial-gradient(ellipse 80% 60% at 15% 10%,rgba(37,99,235,.07) 0%,transparent 55%),radial-gradient(ellipse 60% 60% at 85% 85%,rgba(124,58,237,.05) 0%,transparent 55%),var(--bg)}
+#aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:var(--aop);animation:floatBlob 22s infinite ease-in-out}
+.aurora-blob:nth-child(1){width:900px;height:650px;background:linear-gradient(135deg,#2563EB,#14B8A6);top:-250px;left:-200px}
+.aurora-blob:nth-child(2){width:650px;height:750px;background:linear-gradient(135deg,#7C3AED,#2563EB);top:25%;right:-150px;animation-delay:-8s}
+.aurora-blob:nth-child(3){width:750px;height:550px;background:linear-gradient(135deg,#14B8A6,#7C3AED);bottom:-100px;left:25%;animation-delay:-15s}
+@keyframes floatBlob{0%,100%{transform:translate(0,0)scale(1)}33%{transform:translate(50px,-50px)scale(1.08)}66%{transform:translate(-50px,60px)scale(.94)}}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:10}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 60px;display:flex;align-items:center;justify-content:space-between;background:var(--nb);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bd);transition:background .3s}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:700;letter-spacing:-.5px;text-decoration:none;color:var(--tx)}
+.logo-icon{flex-shrink:0;width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(37,99,235,.5));transition:filter .3s}
+[data-theme=light] .logo-icon{filter:drop-shadow(0 2px 6px rgba(37,99,235,.25))}
+.logo-text{background:linear-gradient(135deg,var(--tx) 40%,var(--t));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-text .ao{background:var(--gb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--mu);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--tx)}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.theme-toggle{width:44px;height:24px;background:var(--sf2);border:1px solid var(--bds);border-radius:100px;position:relative;cursor:none;transition:background .3s;flex-shrink:0}
+.theme-toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--gb);transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+[data-theme=light] .theme-toggle::after{transform:translateX(20px)}
+.btn-ghost{padding:9px 20px;border:1px solid var(--bds);background:var(--gl);color:var(--tx);border-radius:100px;font-size:.875rem;font-weight:500;cursor:none;transition:all .22s;text-decoration:none;backdrop-filter:blur(12px)}
+.btn-ghost:hover{border-color:rgba(37,99,235,.45);background:rgba(37,99,235,.07)}
+.btn-primary{padding:9px 22px;background:var(--gb);color:#fff;border:none;border-radius:100px;font-size:.875rem;font-weight:600;cursor:none;transition:all .26s;text-decoration:none;box-shadow:var(--sb);position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .2s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(37,99,235,.4),0 8px 32px rgba(37,99,235,.4)}
+.btn-primary:hover::before{opacity:1}
+section{position:relative}
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 60px 80px;gap:60px;overflow:hidden}
+.hero-left{flex:1;max-width:620px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(20,184,166,.08));border:1px solid rgba(37,99,235,.28);border-radius:100px;font-size:.75rem;font-weight:700;color:var(--t);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:32px;animation:fadeSlideUp .7s ease both}
+.badge-dot{width:6px;height:6px;background:var(--t);border-radius:50%;animation:pulseDot 2s infinite;flex-shrink:0}
+@keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(20,184,166,.5)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(20,184,166,0)}}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(3rem,4.8vw,5.4rem);font-weight:800;line-height:1.04;letter-spacing:-2.5px;margin-bottom:28px;animation:fadeSlideUp .7s .08s ease both}
+.hero h1 .line1{display:block;color:var(--tx)}
+.hero h1 .line2{display:block;background:var(--gh);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:gradShift 5s linear infinite,fadeSlideUp .7s .16s ease both}
+@keyframes gradShift{to{background-position:200% center}}
+.hero-sub{font-size:1.1rem;line-height:1.75;color:var(--mu);max-width:490px;margin-bottom:40px;animation:fadeSlideUp .7s .24s ease both}
+.hero-ctas{display:flex;gap:14px;align-items:center;margin-bottom:52px;animation:fadeSlideUp .7s .32s ease both}
+.btn-hero{padding:15px 34px;background:var(--gb);color:#fff;border:none;border-radius:100px;font-size:.975rem;font-weight:700;cursor:none;transition:all .28s;box-shadow:0 0 0 1px rgba(37,99,235,.3),0 6px 30px rgba(37,99,235,.35);position:relative;overflow:hidden}
+.btn-hero::after{content:'';position:absolute;top:0;left:-120%;width:80%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shimmer 3.5s 1s infinite}
+@keyframes shimmer{to{left:180%}}
+.btn-hero:hover{transform:translateY(-3px) scale(1.025);box-shadow:0 0 0 1px rgba(37,99,235,.4),0 12px 50px rgba(37,99,235,.45)}
+.btn-hero-outline{padding:15px 34px;border:1px solid var(--bds);background:var(--gl);backdrop-filter:blur(16px);color:var(--tx);border-radius:100px;font-size:.975rem;font-weight:600;cursor:none;transition:all .26s}
+.btn-hero-outline:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.07);transform:translateY(-2px)}
+.hero-trust{display:flex;align-items:center;gap:20px;animation:fadeSlideUp .7s .4s ease both}
+.trust-avatars{display:flex}
+.trust-avatars span{width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);background:var(--gb);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;margin-left:-8px}
+.trust-avatars span:nth-child(2){background:var(--gv)}
+.trust-avatars span:nth-child(3){background:linear-gradient(135deg,#14B8A6,#7C3AED)}
+.trust-avatars span:first-child{margin-left:0}
+.trust-text{font-size:.85rem;color:var(--mu);line-height:1.5}
+.trust-text strong{color:var(--tx)}
+.stars{color:var(--g);letter-spacing:1.5px;font-size:.8rem}
+.hero-right{flex:1;position:relative;min-height:600px;animation:fadeSlideUp .7s .2s ease both}
+.workspace-container{position:relative;width:100%;height:600px}
+.ws-card{position:absolute;background:var(--glm);border:1px solid var(--bd);backdrop-filter:blur(24px) saturate(160%);border-radius:18px;padding:20px;transition:transform .1s ease;box-shadow:var(--sc)}
+.ws-main{width:380px;top:40px;right:0;background:var(--cb);border:1px solid rgba(37,99,235,.2);box-shadow:0 0 0 1px rgba(37,99,235,.1),0 8px 48px rgba(0,0,0,.55);animation:floatCard 6s ease-in-out infinite}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.ws-dots{display:flex;gap:6px;margin-bottom:16px}
+.ws-dots span{width:10px;height:10px;border-radius:50%}
+.ws-dots span:nth-child(1){background:#ff5f57}.ws-dots span:nth-child(2){background:#ffbd2e}.ws-dots span:nth-child(3){background:#28c840}
+.code-block{font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.85;color:#c9d1d9}
+.code-block .kw{color:#bf91f3}.code-block .fn{color:#56b6d6}.code-block .str{color:#69d08e}.code-block .cm{color:#5d6a7e}.code-block .num{color:#f4c542}
+.ws-analytics{width:200px;top:0;right:400px;animation:floatCard 5s 1.2s ease-in-out infinite}
+.ws-analytics-title{font-size:.68rem;color:var(--mu);margin-bottom:10px;text-transform:uppercase;letter-spacing:1.2px}
+.metric-big{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:800;color:var(--tx)}
+.metric-big .up{color:#10B981;font-size:.9rem;font-weight:600}
+.mini-chart{display:flex;align-items:flex-end;gap:4px;height:38px;margin-top:12px}
+.mini-bar{flex:1;border-radius:3px 3px 0 0;background:rgba(37,99,235,.18);transition:all .5s ease}
+.mini-bar.active{background:linear-gradient(180deg,var(--t),var(--s))}
+.ws-payment{width:220px;bottom:80px;right:400px;animation:floatCard 7s 2s ease-in-out infinite}
+.pay-icon{width:32px;height:32px;background:linear-gradient(135deg,#10B981,#14B8A6);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:1rem}
+.pay-title{font-size:.73rem;color:var(--mu)}.pay-amount{font-family:'Space Grotesk',sans-serif;font-size:1.55rem;font-weight:800;color:#10B981}
+.pay-badge{display:inline-block;margin-top:8px;padding:3px 10px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.28);border-radius:100px;font-size:.68rem;color:#10B981;font-weight:600}
+.ws-deploy{width:200px;bottom:60px;right:10px;animation:floatCard 5.5s .5s ease-in-out infinite}
+.deploy-title{font-size:.68rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin-bottom:12px}
+.deploy-step{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.73rem;color:var(--mu)}
+.deploy-step.done{color:#10B981}.deploy-step.active{color:var(--t)}
+.step-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.done .step-dot{background:#10B981}.active .step-dot{background:var(--t);animation:pulseDot 1.5s infinite}.pending .step-dot{background:var(--bds)}
+.geo-shape{position:absolute;pointer-events:none;animation:floatGeo 9s ease-in-out infinite}
+@keyframes floatGeo{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-22px) rotate(12deg)}}
+.cube{width:56px;height:56px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);border-radius:10px;backdrop-filter:blur(10px);transform:rotate(18deg)}
+.sphere{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(124,58,237,.35),rgba(37,99,235,.08));border:1px solid rgba(124,58,237,.25)}
+.marquee-section{padding:44px 0;overflow:hidden;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.marquee-label{text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:3px;color:var(--mu);margin-bottom:26px;font-weight:500}
+.marquee-track{display:flex;gap:0;width:max-content;animation:marquee 28s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:flex;align-items:center;gap:10px;padding:8px 32px;border-right:1px solid var(--mbd);white-space:nowrap;color:var(--mu);font-weight:600;font-size:.92rem;transition:color .2s}
+.marquee-item:hover{color:var(--tx)}.marquee-item .icon{font-size:1.1rem}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.section-label{font-size:.72rem;text-transform:uppercase;letter-spacing:3px;color:var(--t);font-weight:700;margin-bottom:14px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,3.8vw,3.4rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:18px;color:var(--tx)}
+.section-title .accent{background:var(--gh);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 5s linear infinite}
+.section-sub{font-size:1.05rem;color:var(--mu);line-height:1.75;max-width:580px}
+.features-section{padding:120px 60px}.features-header{text-align:center;margin-bottom:72px}.features-header .section-sub{margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feature-card{background:var(--gl);border:1px solid var(--bd);border-radius:24px;padding:34px;position:relative;overflow:hidden;cursor:none;transition:all .38s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sc);backdrop-filter:blur(16px)}
+.feature-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(37,99,235,.07),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.feature-card:hover::before{opacity:1}
+.feature-card:hover{border-color:rgba(37,99,235,.22);box-shadow:var(--sl),0 0 0 1px rgba(37,99,235,.12)}
+.card-glow{position:absolute;top:-50px;right:-50px;width:130px;height:130px;border-radius:50%;filter:blur(45px);opacity:.2;pointer-events:none}
+[data-theme=light] .card-glow{opacity:.08}
+.feature-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px;position:relative;z-index:1}
+.feature-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;color:var(--tx);position:relative;z-index:1}
+.feature-desc{font-size:.88rem;color:var(--mu);line-height:1.72;margin-bottom:20px;position:relative;z-index:1}
+.feature-arrow{color:var(--t);font-size:1.1rem;transition:transform .22s;display:inline-block;position:relative;z-index:1}
+.feature-card:hover .feature-arrow{transform:translateX(5px)}
+.timeline-section{padding:120px 60px;overflow:hidden}.timeline-header{text-align:center;margin-bottom:72px}
+.timeline-scroll{overflow-x:auto;padding-bottom:20px;scrollbar-width:thin;scrollbar-color:rgba(37,99,235,.3) transparent}
+.timeline-track{display:flex;min-width:max-content;position:relative;padding:60px 80px}
+.timeline-track::before{content:'';position:absolute;top:50%;left:80px;right:80px;height:1px;background:linear-gradient(90deg,transparent,var(--s),var(--t),var(--v),transparent);transform:translateY(-50%);opacity:.5}
+.timeline-item{display:flex;flex-direction:column;align-items:center;width:140px;flex-shrink:0;position:relative;cursor:none}
+.timeline-node{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;position:relative;z-index:2;background:var(--sf);border:2px solid var(--bd);transition:all .3s;margin-bottom:14px;box-shadow:var(--sc)}
+.timeline-item:hover .timeline-node{border-color:var(--t);box-shadow:0 0 0 4px rgba(20,184,166,.15),0 0 30px rgba(20,184,166,.25);transform:scale(1.18)}
+.timeline-label{font-size:.8rem;font-weight:700;text-align:center;color:var(--tx)}.timeline-sub{font-size:.68rem;color:var(--mu);text-align:center;margin-top:4px}
+.curriculum-section{padding:120px 60px}.curriculum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px}
+.curriculum-card{background:var(--gl);border:1px solid var(--bd);border-radius:22px;overflow:hidden;transition:all .3s;cursor:none;box-shadow:var(--sc);backdrop-filter:blur(16px)}
+.curriculum-card:hover{border-color:rgba(37,99,235,.22);transform:translateY(-4px);box-shadow:var(--sl)}
+.curriculum-header{padding:26px 30px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--bd)}
+.curriculum-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t);background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.22);padding:4px 10px;border-radius:6px;flex-shrink:0;font-weight:600}
+.curriculum-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--tx)}
+.curriculum-body{padding:22px 30px}.curriculum-desc{font-size:.88rem;color:var(--mu);line-height:1.72;margin-bottom:16px}
+.curriculum-tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{padding:3px 12px;background:var(--glm);border:1px solid var(--bd);border-radius:100px;font-size:.72rem;color:var(--mu);font-weight:500}
+.pricing-section{padding:120px 60px}.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px;align-items:start}
+.pricing-card{background:var(--gl);border:1px solid var(--bd);border-radius:26px;padding:38px;position:relative;transition:all .3s;cursor:none;box-shadow:var(--sc);backdrop-filter:blur(16px)}
+.pricing-card:hover{transform:translateY(-8px);box-shadow:var(--sl)}
+.pricing-card.popular{background:linear-gradient(145deg,rgba(37,99,235,.12),rgba(20,184,166,.06));border:1px solid rgba(37,99,235,.3);box-shadow:0 0 0 1px rgba(37,99,235,.12),0 8px 48px rgba(37,99,235,.15);transform:scale(1.025)}
+.pricing-card.popular:hover{transform:scale(1.025) translateY(-8px)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:4px 20px;background:var(--gb);border-radius:100px;font-size:.73rem;font-weight:700;white-space:nowrap;color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.35)}
+.pricing-plan{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--mu);margin-bottom:14px;font-weight:600}
+.pricing-price{font-family:'Space Grotesk',sans-serif;font-size:3.4rem;font-weight:800;letter-spacing:-2px;margin-bottom:6px;color:var(--tx)}
+.pricing-period{font-size:.86rem;color:var(--mu);margin-bottom:28px}
+.pricing-features{list-style:none;margin-bottom:30px}
+.pricing-features li{padding:10px 0;border-bottom:1px solid var(--bd);font-size:.88rem;color:var(--mu);display:flex;align-items:center;gap:10px}
+.pricing-features li:last-child{border-bottom:none}.check{color:#10B981;font-size:.78rem;font-weight:700;flex-shrink:0}
+.pricing-cta{width:100%;padding:14px;border-radius:100px;font-size:.92rem;font-weight:700;cursor:none;transition:all .28s;border:none;font-family:inherit}
+.pricing-cta.main{background:var(--gb);color:#fff;box-shadow:0 4px 24px rgba(37,99,235,.3)}
+.pricing-cta.main:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(37,99,235,.42)}
+.pricing-cta.outline{background:var(--glm);border:1px solid var(--bds);color:var(--tx)}
+.pricing-cta.outline:hover{background:var(--gls);border-color:rgba(37,99,235,.3);transform:translateY(-2px)}
+.testimonials-section{padding:120px 60px}.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.testimonial-card{background:var(--gl);border:1px solid var(--bd);border-radius:22px;padding:30px;position:relative;transition:all .3s;cursor:none;box-shadow:var(--sc);backdrop-filter:blur(16px)}
+.testimonial-card:hover{transform:translateY(-6px);border-color:rgba(37,99,235,.2);box-shadow:var(--sl)}
+.test-stars{color:var(--g);font-size:.85rem;letter-spacing:2px;margin-bottom:14px}
+.test-quote{font-size:.92rem;line-height:1.75;color:var(--mu);margin-bottom:22px;font-style:italic}
+.test-author{display:flex;align-items:center;gap:12px}
+.test-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;background:var(--gb);flex-shrink:0}
+.test-name{font-weight:700;font-size:.88rem;color:var(--tx)}.test-role{font-size:.77rem;color:var(--mu)}
+.faq-section{padding:120px 60px}.faq-list{max-width:760px;margin:56px auto 0}
+.faq-item{border-bottom:1px solid var(--bd);overflow:hidden}
+.faq-question{width:100%;text-align:left;padding:22px 0;background:none;border:none;color:var(--tx);font-size:.975rem;font-weight:600;cursor:none;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:color .2s;font-family:inherit}
+.faq-question:hover{color:var(--s)}
+.faq-icon{width:24px;height:24px;border-radius:50%;border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;transition:all .3s;color:var(--mu);font-weight:700}
+.faq-item.open .faq-icon{background:rgba(37,99,235,.12);border-color:rgba(37,99,235,.35);color:var(--s);transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;font-size:.925rem;color:var(--mu);line-height:1.8;transition:max-height .4s ease,padding .3s;padding-bottom:0}
+.faq-item.open .faq-answer{max-height:280px;padding-bottom:22px}
+.cta-section{padding:160px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-orb{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 5s ease-in-out infinite;pointer-events:none}
+.cta-orb-2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,.1),transparent 70%);top:30%;left:60%;transform:translate(-50%,-50%);animation:breathe 7s 2s ease-in-out infinite;pointer-events:none}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%)scale(1)}50%{transform:translate(-50%,-50%)scale(1.25)}}
+.cta-section .section-title{font-size:clamp(2.2rem,4.8vw,4.8rem);margin-bottom:22px}
+.cta-section .section-sub{margin:0 auto 46px;max-width:560px;font-size:1.15rem}
+.cta-buttons{display:flex;gap:14px;justify-content:center}
+footer{padding:56px 60px;border-top:1px solid var(--bd);background:linear-gradient(180deg,transparent,rgba(37,99,235,.025));backdrop-filter:blur(20px)}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.footer-info{font-size:.83rem;color:var(--mu);margin-top:6px}.footer-info a{color:var(--t);text-decoration:none}
+.footer-links{display:flex;gap:14px}
+.footer-icon{width:40px;height:40px;border-radius:11px;background:var(--glm);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:none;transition:all .25s;color:var(--mu);text-decoration:none}
+.footer-icon:hover{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.3);color:var(--s);transform:translateY(-3px)}
+.footer-copy{font-size:.78rem;color:var(--mu)}
+.modal-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);backdrop-filter:blur(22px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal{background:var(--sf);border:1px solid var(--bds);border-radius:28px;padding:48px;width:460px;box-shadow:0 8px 64px rgba(0,0,0,.6),0 0 80px rgba(37,99,235,.1);transform:translateY(24px) scale(.96);transition:transform .32s cubic-bezier(.34,1.56,.64,1);position:relative}
+.modal-overlay.active .modal{transform:translateY(0) scale(1)}
+.modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;background:var(--glm);border:1px solid var(--bd);border-radius:8px;cursor:none;color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+.modal-close:hover{color:var(--tx);background:var(--gls)}
+.modal-logo{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:6px;color:var(--tx)}
+.modal-sub{font-size:.88rem;color:var(--mu);margin-bottom:30px}
+.modal-tabs{display:flex;margin-bottom:28px;background:var(--gl);border:1px solid var(--bd);border-radius:12px;padding:4px}
+.modal-tab{flex:1;padding:9px;text-align:center;border-radius:9px;font-size:.875rem;font-weight:600;cursor:none;transition:all .22s;color:var(--mu);border:none;background:none;font-family:inherit}
+.modal-tab.active{background:var(--sf);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.12),0 0 0 1px rgba(37,99,235,.15)}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.75rem;font-weight:700;color:var(--mu);margin-bottom:7px;text-transform:uppercase;letter-spacing:1px}
+.form-input{width:100%;padding:13px 15px;background:var(--glm);border:1px solid var(--bds);border-radius:11px;color:var(--tx);font-size:.925rem;font-family:'Inter',sans-serif;transition:all .2s;outline:none}
+.form-input:focus{border-color:rgba(37,99,235,.5);background:rgba(37,99,235,.05);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-input::placeholder{color:var(--mu)}
+.form-panel{display:none}.form-panel.active{display:block}
+.btn-form{width:100%;padding:14px;background:var(--gb);color:#fff;border:none;border-radius:100px;font-size:.975rem;font-weight:700;cursor:none;margin-top:8px;transition:all .28s;box-shadow:0 4px 24px rgba(37,99,235,.3);font-family:inherit}
+.btn-form:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(37,99,235,.42)}
+.dashboard-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .4s;display:flex}
+.dashboard-overlay.active{opacity:1;pointer-events:all}
+.dash-sidebar{width:260px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--bd);padding:24px;display:flex;flex-direction:column;gap:4px}
+.dash-logo{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--bd);color:var(--tx)}
+.dash-nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:11px;cursor:none;transition:all .2s;color:var(--mu);font-size:.875rem;font-weight:500}
+.dash-nav-item:hover,.dash-nav-item.active{background:rgba(37,99,235,.1);color:var(--tx)}
+.dash-nav-item.active{border:1px solid rgba(37,99,235,.2)}
+.dash-main{flex:1;overflow-y:auto;padding:32px;background:var(--bg)}
+.dash-header{margin-bottom:28px}
+.dash-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.75rem;font-weight:800;margin-bottom:6px;color:var(--tx)}
+.dash-header p{color:var(--mu);font-size:.92rem}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.dash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:20px;box-shadow:var(--sc)}
+.dash-stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:8px;font-weight:600}
+.dash-stat-val{font-family:'Space Grotesk',sans-serif;font-size:1.75rem;font-weight:800;color:var(--tx)}
+.dash-modules{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dash-module{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;cursor:none;transition:all .2s;box-shadow:var(--sc)}
+.dash-module:hover{border-color:rgba(37,99,235,.2);transform:translateY(-2px)}
+.dash-module-title{font-weight:700;margin-bottom:6px;color:var(--tx);font-size:.92rem}
+.dash-module-desc{font-size:.82rem;color:var(--mu);margin-bottom:14px}
+.progress-bar{height:4px;background:var(--bds);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;background:var(--gb)}
+.dash-close{position:absolute;top:20px;right:20px;width:36px;height:36px;background:var(--glm);border:1px solid var(--bd);border-radius:10px;cursor:none;color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .2s;z-index:10}
+.dash-close:hover{color:var(--tx)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.wave-divider{height:70px;position:relative;overflow:hidden;pointer-events:none}
+.wave-divider::before{content:'';position:absolute;bottom:0;left:0;right:0;height:70px;background:linear-gradient(90deg,var(--s),var(--t),var(--v));opacity:var(--dop);clip-path:polygon(0 100%,100% 100%,100% 20%,78% 65%,55% 15%,30% 70%,0 25%)}
+.float-obj{position:fixed;pointer-events:none;z-index:2;animation:floatRandom 18s ease-in-out infinite}
+@keyframes floatRandom{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(18px,-28px) rotate(6deg)}50%{transform:translate(-12px,-55px) rotate(-4deg)}75%{transform:translate(26px,-18px) rotate(9deg)}}
+@media(max-width:1100px){.hero{flex-direction:column;padding:120px 32px 60px}.hero-right{min-height:400px;width:100%}.features-grid,.pricing-grid,.testimonials-grid{grid-template-columns:1fr}.curriculum-grid{grid-template-columns:1fr}nav{padding:16px 24px}.nav-links{display:none}.features-section,.timeline-section,.curriculum-section,.pricing-section,.testimonials-section,.faq-section,.cta-section{padding:80px 30px}footer{padding:40px 30px}.dash-stats{grid-template-columns:1fr 1fr}.modal{width:92vw;padding:32px 24px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="spotlight"></div>
+
+<!-- BACKGROUND -->
+<div class="bg-canvas"></div>
+<div id="aurora">
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+</div>
+<canvas id="particles"></canvas>
+
+<!-- FLOATING BACKGROUND OBJECTS -->
+<div class="float-obj" style="width:100px;height:100px;border:1px solid #0066ff;border-radius:12px;top:15%;left:3%;animation-duration:18s"></div>
+<div class="float-obj" style="width:60px;height:60px;border:1px solid #00d4ff;border-radius:50%;top:60%;right:2%;animation-duration:12s;animation-delay:-5s"></div>
+<div class="float-obj" style="width:80px;height:80px;border:1px solid #7c3aed;border-radius:16px;top:40%;left:5%;animation-duration:20s;animation-delay:-10s;transform:rotate(30deg)"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo"><svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#14B8A6"/></linearGradient><filter id="gw"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M18 2L33 10.5V25.5L18 34L3 25.5V10.5L18 2Z" fill="url(#lg1)" opacity=".15" stroke="url(#lg1)" stroke-width="1.2"/><path d="M11 14.5H25M11 18H21M11 21.5H23" stroke="url(#lg1)" stroke-width="1.6" stroke-linecap="round" filter="url(#gw)"/><circle cx="25" cy="12" r="3" fill="#F4C542" opacity=".9"/><circle cx="25" cy="12" r="1.4" fill="white"/></svg><span class="logo-text">Founder<span class="ao">OS</span></span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#curriculum">Curriculum</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-cta"><button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()"></button>
+    <a href="#" class="btn-ghost" onclick="openModal(event)">Sign In</a>
+    <a href="#" class="btn-primary" onclick="openModal(event)">Start Building →</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-badge"><span class="badge-dot"></span> AI Coding Bootcamp for Founders</div>
+    <h1>
+      <span class="line1">Build Your SaaS.</span>
+      <span class="line2">No CS Degree<br>Required.</span>
+    </h1>
+    <p class="hero-sub">FounderOS teaches non-technical entrepreneurs to ship real AI-powered products using Lovable, Supabase, Stripe, and modern AI tools — in weeks, not years.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-hero" onclick="openModal(event)">Start Building Free →</a>
+      <a href="#curriculum" class="btn-hero-outline">View Curriculum</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-avatars">
+        <span>AK</span><span>MR</span><span>SP</span><span>JL</span><span>+</span>
+      </div>
+      <div class="trust-text">
+        <div class="stars">★★★★★</div>
+        <div>Trusted by <strong>2,400+ founders</strong> worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="workspace-container">
+      <!-- Main code window -->
+      <div class="ws-card ws-main">
+        <div class="ws-dots"><span></span><span></span><span></span></div>
+        <div class="code-block">
+          <div><span class="kw">import</span> { <span class="fn">createClient</span> } <span class="kw">from</span> <span class="str">'@supabase/supabase-js'</span></div>
+          <div><span class="kw">import</span> <span class="fn">Stripe</span> <span class="kw">from</span> <span class="str">'stripe'</span></div>
+          <div>&nbsp;</div>
+          <div><span class="cm">// Your AI SaaS — built by YOU</span></div>
+          <div><span class="kw">const</span> <span class="fn">supabase</span> = createClient(</div>
+          <div>&nbsp;&nbsp;process.env.<span class="str">SUPABASE_URL</span>,</div>
+          <div>&nbsp;&nbsp;process.env.<span class="str">SUPABASE_KEY</span></div>
+          <div>)</div>
+          <div>&nbsp;</div>
+          <div><span class="kw">export async function</span> <span class="fn">createCheckout</span>() {</div>
+          <div>&nbsp;&nbsp;<span class="kw">const</span> session = <span class="kw">await</span> stripe</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;.checkout.sessions.<span class="fn">create</span>({</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;price: <span class="str">'price_H5ggYwtDq4fbrJ'</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success_url: <span class="str">'/success'</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;})</div>
+          <div>&nbsp;&nbsp;<span class="kw">return</span> session.url <span class="cm">// 🚀</span></div>
+          <div>}</div>
+        </div>
+      </div>
+
+      <!-- Analytics card -->
+      <div class="ws-card ws-analytics">
+        <div class="ws-analytics-title">MRR</div>
+        <div class="metric-big">$12.4k <span class="up">↑ 34%</span></div>
+        <div class="mini-chart">
+          <div class="mini-bar" style="height:30%"></div>
+          <div class="mini-bar" style="height:50%"></div>
+          <div class="mini-bar" style="height:40%"></div>
+          <div class="mini-bar active" style="height:70%"></div>
+          <div class="mini-bar active" style="height:60%"></div>
+          <div class="mini-bar active" style="height:90%"></div>
+          <div class="mini-bar active" style="height:100%"></div>
+        </div>
+      </div>
+
+      <!-- Payment card -->
+      <div class="ws-card ws-payment">
+        <div class="pay-icon">💳</div>
+        <div class="pay-title">New Payment</div>
+        <div class="pay-amount">+$299</div>
+        <div class="pay-badge">✓ Stripe Success</div>
+      </div>
+
+      <!-- Deploy card -->
+      <div class="ws-card ws-deploy">
+        <div class="deploy-title">Deploying...</div>
+        <div class="deploy-step done"><div class="step-dot"></div>Build complete</div>
+        <div class="deploy-step done"><div class="step-dot"></div>DB migrated</div>
+        <div class="deploy-step active"><div class="step-dot"></div>Going live</div>
+        <div class="deploy-step pending"><div class="step-dot"></div>Domain active</div>
+      </div>
+
+      <!-- Floating shapes -->
+      <div class="geo-shape cube" style="top:-20px;right:50px;animation-delay:-2s"></div>
+      <div class="geo-shape sphere" style="bottom:0;left:0;animation-delay:-4s"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-label">Powered by the world's best tools</div>
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><span class="icon">💜</span> Lovable</div>
+    <div class="marquee-item"><span class="icon">⚡</span> Supabase</div>
+    <div class="marquee-item"><span class="icon">💳</span> Stripe</div>
+    <div class="marquee-item"><span class="icon">🤖</span> AI Workflows</div>
+    <div class="marquee-item"><span class="icon">🚀</span> Launch Systems</div>
+    <div class="marquee-item"><span class="icon">☁️</span> SaaS</div>
+    <div class="marquee-item"><span class="icon">🛠️</span> MVP</div>
+    <div class="marquee-item"><span class="icon">📦</span> Product Development</div>
+    <div class="marquee-item"><span class="icon">⚙️</span> Automation</div>
+    <div class="marquee-item"><span class="icon">📈</span> Customer Acquisition</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><span class="icon">💜</span> Lovable</div>
+    <div class="marquee-item"><span class="icon">⚡</span> Supabase</div>
+    <div class="marquee-item"><span class="icon">💳</span> Stripe</div>
+    <div class="marquee-item"><span class="icon">🤖</span> AI Workflows</div>
+    <div class="marquee-item"><span class="icon">🚀</span> Launch Systems</div>
+    <div class="marquee-item"><span class="icon">☁️</span> SaaS</div>
+    <div class="marquee-item"><span class="icon">🛠️</span> MVP</div>
+    <div class="marquee-item"><span class="icon">📦</span> Product Development</div>
+    <div class="marquee-item"><span class="icon">⚙️</span> Automation</div>
+    <div class="marquee-item"><span class="icon">📈</span> Customer Acquisition</div>
+  </div>
+</div>
+
+<div class="wave-divider"></div>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="features-header reveal">
+    <div class="section-label">Why FounderOS</div>
+    <h2 class="section-title">Everything you need to<br><span class="accent">ship your first product</span></h2>
+    <p class="section-sub">A complete system built for ambitious non-technical founders who want to move fast, build real things, and grow a business.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)">
+      <div class="card-glow" style="background:radial-gradient(circle,#0066ff,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(0,102,255,0.1);border:1px solid rgba(0,102,255,0.2)">🤖</div>
+      <div class="feature-title">AI-Powered Building</div>
+      <div class="feature-desc">Use Lovable.dev and modern AI tools to build full-stack apps without writing a single line of code from scratch.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)" style="transition-delay:.1s">
+      <div class="card-glow" style="background:radial-gradient(circle,#00d4ff,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2)">⚡</div>
+      <div class="feature-title">Real Database & Backend</div>
+      <div class="feature-desc">Connect Supabase for auth, database, and real-time features. Build apps that actually store and process data.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)" style="transition-delay:.2s">
+      <div class="card-glow" style="background:radial-gradient(circle,#10b981,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2)">💰</div>
+      <div class="feature-title">Payments from Day 1</div>
+      <div class="feature-desc">Integrate Stripe and start charging customers. Go from idea to first dollar in your bank within weeks.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)" style="transition-delay:.1s">
+      <div class="card-glow" style="background:radial-gradient(circle,#7c3aed,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2)">🚀</div>
+      <div class="feature-title">Ship & Deploy</div>
+      <div class="feature-desc">Learn to deploy on Vercel, Netlify, and Railway. Your product goes live for real users — not just your laptop.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)" style="transition-delay:.2s">
+      <div class="card-glow" style="background:radial-gradient(circle,#e040fb,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(224,64,251,0.1);border:1px solid rgba(224,64,251,0.2)">🎯</div>
+      <div class="feature-title">Founder-First Curriculum</div>
+      <div class="feature-desc">No CS theory, no useless exercises. Every lesson maps directly to a feature in your real product.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+    <div class="feature-card reveal" onmousemove="tiltCard(event,this)" style="transition-delay:.3s">
+      <div class="card-glow" style="background:radial-gradient(circle,#fbbf24,transparent)"></div>
+      <div class="feature-icon" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2)">🌍</div>
+      <div class="feature-title">Community & Mentorship</div>
+      <div class="feature-desc">Join a network of ambitious founders. Get feedback, accountability, and partnerships that accelerate your growth.</div>
+      <div class="feature-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"></div>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="journey">
+  <div class="timeline-header reveal">
+    <div class="section-label">The Founder Journey</div>
+    <h2 class="section-title">From idea to <span class="accent">paying customers</span></h2>
+    <p class="section-sub">A proven 10-step path from zero to a revenue-generating SaaS product.</p>
+  </div>
+  <div class="timeline-scroll">
+    <div class="timeline-track">
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(0,212,255,0.4)">💡</div>
+        <div class="timeline-label">Idea</div>
+        <div class="timeline-sub">Week 1</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(124,58,237,0.4)">🤖</div>
+        <div class="timeline-label">AI Build</div>
+        <div class="timeline-sub">Week 2</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(0,102,255,0.4)">🛠️</div>
+        <div class="timeline-label">Working MVP</div>
+        <div class="timeline-sub">Week 3</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(16,185,129,0.4)">🔐</div>
+        <div class="timeline-label">Auth</div>
+        <div class="timeline-sub">Week 4</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(251,191,36,0.4)">💳</div>
+        <div class="timeline-label">Payments</div>
+        <div class="timeline-sub">Week 5</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(224,64,251,0.4)">☁️</div>
+        <div class="timeline-label">Deployment</div>
+        <div class="timeline-sub">Week 6</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(0,212,255,0.4)">🚀</div>
+        <div class="timeline-label">Launch</div>
+        <div class="timeline-sub">Week 7</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(16,185,129,0.4)">👥</div>
+        <div class="timeline-label">Customers</div>
+        <div class="timeline-sub">Week 8</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(251,191,36,0.4)">💰</div>
+        <div class="timeline-label">Revenue</div>
+        <div class="timeline-sub">Week 9</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-node" style="border-color:rgba(0,102,255,0.5);box-shadow:0 0 30px rgba(0,102,255,0.3)">📈</div>
+        <div class="timeline-label">Scale</div>
+        <div class="timeline-sub">Week 10+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"></div>
+
+<!-- CURRICULUM -->
+<section class="curriculum-section" id="curriculum">
+  <div class="reveal">
+    <div class="section-label">Curriculum</div>
+    <h2 class="section-title">Six modules. One <span class="accent">complete product.</span></h2>
+    <p class="section-sub">Every module builds on the last. By the end, you have a deployed, paying SaaS product — not just assignments.</p>
+  </div>
+  <div class="curriculum-grid">
+    <div class="curriculum-card reveal">
+      <div class="curriculum-header">
+        <div class="curriculum-num">01</div>
+        <div class="curriculum-title">Foundations of AI Product Building</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Learn the AI-native founder mindset. Understand how to turn business ideas into product specs that AI tools can actually build.</div>
+        <div class="curriculum-tags"><span class="tag">Lovable.dev</span><span class="tag">Product Thinking</span><span class="tag">AI Prompting</span></div>
+      </div>
+    </div>
+    <div class="curriculum-card reveal" style="transition-delay:.1s">
+      <div class="curriculum-header">
+        <div class="curriculum-num">02</div>
+        <div class="curriculum-title">Backend & Database Architecture</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Set up Supabase, design your data models, add authentication, and connect your AI-built frontend to a real backend.</div>
+        <div class="curriculum-tags"><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">Auth</span></div>
+      </div>
+    </div>
+    <div class="curriculum-card reveal" style="transition-delay:.1s">
+      <div class="curriculum-header">
+        <div class="curriculum-num">03</div>
+        <div class="curriculum-title">Payments & Monetization</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Integrate Stripe for subscriptions, one-time payments, and webhooks. Learn pricing strategy and revenue fundamentals.</div>
+        <div class="curriculum-tags"><span class="tag">Stripe</span><span class="tag">Webhooks</span><span class="tag">Pricing</span></div>
+      </div>
+    </div>
+    <div class="curriculum-card reveal" style="transition-delay:.2s">
+      <div class="curriculum-header">
+        <div class="curriculum-num">04</div>
+        <div class="curriculum-title">AI Workflow Automation</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Build AI-powered features into your product using OpenAI, Anthropic, and n8n automation workflows.</div>
+        <div class="curriculum-tags"><span class="tag">OpenAI API</span><span class="tag">n8n</span><span class="tag">Automation</span></div>
+      </div>
+    </div>
+    <div class="curriculum-card reveal">
+      <div class="curriculum-header">
+        <div class="curriculum-num">05</div>
+        <div class="curriculum-title">Deployment & DevOps</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Deploy your product professionally. Set up custom domains, CI/CD, environment variables, and monitoring.</div>
+        <div class="curriculum-tags"><span class="tag">Vercel</span><span class="tag">Railway</span><span class="tag">GitHub</span></div>
+      </div>
+    </div>
+    <div class="curriculum-card reveal" style="transition-delay:.1s">
+      <div class="curriculum-header">
+        <div class="curriculum-num">06</div>
+        <div class="curriculum-title">Launch & Customer Acquisition</div>
+      </div>
+      <div class="curriculum-body">
+        <div class="curriculum-desc">Ship publicly on Product Hunt, build your audience, acquire your first 10 paying customers, and create systems to scale.</div>
+        <div class="curriculum-tags"><span class="tag">Product Hunt</span><span class="tag">SEO</span><span class="tag">Growth</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"></div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="reveal" style="text-align:center">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Invest in your <span class="accent">first product</span></h2>
+    <p class="section-sub" style="margin:0 auto">One-time investment. Lifetime access. Build unlimited products.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-plan">Starter</div>
+      <div class="pricing-price">$97</div>
+      <div class="pricing-period">one-time payment</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> 6 Core Modules</li>
+        <li><span class="check">✓</span> Lifetime Access</li>
+        <li><span class="check">✓</span> Community Discord</li>
+        <li><span class="check">✓</span> Project Templates</li>
+        <li style="color:rgba(255,255,255,0.2)">— Live Mentorship Calls</li>
+        <li style="color:rgba(255,255,255,0.2)">— Code Review</li>
+      </ul>
+      <button class="pricing-cta outline" onclick="openModal(event)">Get Started</button>
+    </div>
+    <div class="pricing-card popular reveal" style="transition-delay:.1s">
+      <div class="popular-badge">⚡ Most Popular</div>
+      <div class="pricing-plan">Accelerator</div>
+      <div class="pricing-price" style="background:linear-gradient(135deg,#0066ff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$297</div>
+      <div class="pricing-period">one-time payment</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Everything in Starter</li>
+        <li><span class="check">✓</span> Weekly Live Calls</li>
+        <li><span class="check">✓</span> 1:1 Code Reviews</li>
+        <li><span class="check">✓</span> Launch Roadmap</li>
+        <li><span class="check">✓</span> Stripe & Supabase Setup Help</li>
+        <li><span class="check">✓</span> Founder Accountability Pod</li>
+      </ul>
+      <button class="pricing-cta main" onclick="openModal(event)">Join Accelerator →</button>
+    </div>
+    <div class="pricing-card reveal" style="transition-delay:.2s">
+      <div class="pricing-plan">Elite</div>
+      <div class="pricing-price">$697</div>
+      <div class="pricing-period">one-time payment</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Everything in Accelerator</li>
+        <li><span class="check">✓</span> Private Slack Access</li>
+        <li><span class="check">✓</span> Monthly Strategy Call</li>
+        <li><span class="check">✓</span> Revenue Share Network</li>
+        <li><span class="check">✓</span> Investor Intro List</li>
+        <li><span class="check">✓</span> Lifetime Updates</li>
+      </ul>
+      <button class="pricing-cta outline" onclick="openModal(event)">Go Elite</button>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="reveal" style="text-align:center">
+    <div class="section-label">Founder Stories</div>
+    <h2 class="section-title">Real founders.<br><span class="accent">Real products.</span></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"I went from having zero coding knowledge to launching a SaaS that now generates $3,200/month. FounderOS literally changed my life."</div>
+      <div class="test-author">
+        <div class="test-avatar">SK</div>
+        <div><div class="test-name">Sara K.</div><div class="test-role">Founder @ TaskAI — Dubai</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.1s">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"Within 6 weeks I had my first paying customer. The curriculum is insanely practical. No fluff, just building real things that work."</div>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#10b981,#00d4ff)">MR</div>
+        <div><div class="test-name">Marco R.</div><div class="test-role">Founder @ ContentFlow — Italy</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.2s">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"As a non-technical founder, I always felt left behind. FounderOS gave me the confidence and skills to finally build my vision independently."</div>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#7c3aed,#e040fb)">JP</div>
+        <div><div class="test-name">Jasmine P.</div><div class="test-role">Founder @ HireBot — Toronto</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"The Stripe integration module alone saved me $2,000 in developer fees. This program pays for itself in the first week."</div>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#fbbf24,#f97316)">AK</div>
+        <div><div class="test-name">Ahmed K.</div><div class="test-role">Founder @ LeadGen.ai — Cairo</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.1s">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"The community alone is worth the price. Being surrounded by founders who are shipping, not just talking, completely changed my output."</div>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#10b981,#7c3aed)">LW</div>
+        <div><div class="test-name">Lisa W.</div><div class="test-role">Founder @ DocuAI — Berlin</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.2s">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote">"I shipped 3 products in 3 months. None of them would exist without FounderOS. This is the best investment I've made in my founder journey."</div>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#0066ff,#e040fb)">RS</div>
+        <div><div class="test-name">Raj S.</div><div class="test-role">Founder @ AutoStack — Mumbai</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"></div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="reveal" style="text-align:center">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Questions <span class="accent">answered</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do I need any coding experience?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">No coding experience is required. FounderOS is specifically designed for non-technical entrepreneurs. We use modern AI tools like Lovable.dev that let you build real software products through natural language — no syntax memorization needed.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How long does it take to complete?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Most founders complete the core curriculum in 8–10 weeks at a pace of 3–5 hours per week. However, you have lifetime access, so you can move at whatever speed works for your schedule.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Will I actually build a real product?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Absolutely. By the end of the program you will have a deployed, live SaaS application with authentication, a database, Stripe payments, and real users. This is not a portfolio project — it's a real business asset.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What tools will I need (and what do they cost)?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">The main tools we use — Lovable.dev, Supabase, and Vercel — all have free tiers that are more than enough to get started. Stripe charges a small percentage of transactions only after you start earning revenue. Total tool costs to launch: close to $0.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a refund policy?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Yes. We offer a 14-day no-questions-asked refund if you complete the first two modules and feel the program isn't right for you. We're confident you'll be building and excited by then.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="cta-orb"></div>
+  <div class="reveal">
+    <div class="section-label">Get Started Today</div>
+    <h2 class="section-title">Your first product is<br><span class="accent">closer than you think.</span></h2>
+    <p class="section-sub">Join 2,400+ founders who stopped waiting for a technical co-founder and started building with AI.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-hero" onclick="openModal(event)">Start Building Free →</a>
+      <a href="#curriculum" class="btn-hero-outline">Explore Curriculum</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo"><svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#14B8A6"/></linearGradient><filter id="gw"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M18 2L33 10.5V25.5L18 34L3 25.5V10.5L18 2Z" fill="url(#lg1)" opacity=".15" stroke="url(#lg1)" stroke-width="1.2"/><path d="M11 14.5H25M11 18H21M11 21.5H23" stroke="url(#lg1)" stroke-width="1.6" stroke-linecap="round" filter="url(#gw)"/><circle cx="25" cy="12" r="3" fill="#F4C542" opacity=".9"/><circle cx="25" cy="12" r="1.4" fill="white"/></svg><span class="logo-text">Founder<span class="ao">OS</span></span></a>
+      <div class="footer-info">
+        Built by Arfa Munam · <a href="mailto:arfamunam01@gmail.com">arfamunam01@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:arfamunam01@gmail.com" class="footer-icon" title="Email">✉</a>
+      <a href="https://github.com/arfamunam47" target="_blank" class="footer-icon" title="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/arfa-munam-0b7936286" target="_blank" class="footer-icon" title="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+    <div class="footer-copy">© 2025 FounderOS. All rights reserved.</div>
+  </div>
+</footer>
+
+</main>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-logo">Founder<span style="color:var(--cyan)">OS</span></div>
+    <div class="modal-sub">Your AI-powered builder dashboard awaits.</div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('signin',this)">Sign In</button>
+      <button class="modal-tab" onclick="switchTab('signup',this)">Create Account</button>
+    </div>
+    <div class="form-panel active" id="signin">
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="you@startup.com"></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+      <button class="btn-form" onclick="openDashboard()">Sign In →</button>
+      <p style="text-align:center;margin-top:16px;font-size:0.8rem;color:rgba(255,255,255,0.3)"><a href="#" style="color:var(--cyan);text-decoration:none">Forgot password?</a></p>
+    </div>
+    <div class="form-panel" id="signup">
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" placeholder="Your name"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="you@startup.com"></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+      <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+      <button class="btn-form" onclick="openDashboard()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard-overlay" id="dashboard">
+  <button class="dash-close" onclick="closeDashboard()">×</button>
+  <div class="dash-sidebar">
+    <div class="dash-logo">Founder<span style="color:var(--cyan)">OS</span></div>
+    <div class="dash-nav-item active">📊 Dashboard</div>
+    <div class="dash-nav-item">📚 Modules</div>
+    <div class="dash-nav-item">▶️ Continue Learning</div>
+    <div class="dash-nav-item">🗓️ Upcoming</div>
+    <div class="dash-nav-item">📁 Resources</div>
+    <div class="dash-nav-item">👥 Community</div>
+    <div class="dash-nav-item">💳 Billing</div>
+    <div style="margin-top:auto;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06)">
+      <div class="dash-nav-item" onclick="closeDashboard()">← Back to Site</div>
+    </div>
+  </div>
+  <div class="dash-main">
+    <div class="dash-header">
+      <h2>Welcome back, Founder 👋</h2>
+      <p>You're on track — keep building.</p>
+    </div>
+    <div class="dash-stats">
+      <div class="dash-stat">
+        <div class="dash-stat-label">Modules Complete</div>
+        <div class="dash-stat-val" style="color:var(--cyan)">3/6</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-label">Streak</div>
+        <div class="dash-stat-val" style="color:#fbbf24">12 🔥</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-label">Community Posts</div>
+        <div class="dash-stat-val">47</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-label">Products Shipped</div>
+        <div class="dash-stat-val" style="color:var(--emerald)">1</div>
+      </div>
+    </div>
+    <div class="dash-modules">
+      <div class="dash-module">
+        <div class="dash-module-title">✅ Module 1: AI Foundations</div>
+        <div class="dash-module-desc">Lovable.dev, product thinking, AI prompting</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="dash-module">
+        <div class="dash-module-title">✅ Module 2: Backend & Database</div>
+        <div class="dash-module-desc">Supabase, PostgreSQL, Auth</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="dash-module">
+        <div class="dash-module-title">▶️ Module 3: Payments</div>
+        <div class="dash-module-desc">Stripe integration, webhooks, pricing</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+      <div class="dash-module">
+        <div class="dash-module-title">🔒 Module 4: AI Workflows</div>
+        <div class="dash-module-desc">OpenAI API, n8n automations</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="dash-module">
+        <div class="dash-module-title">🔒 Module 5: Deployment</div>
+        <div class="dash-module-desc">Vercel, Railway, GitHub CI/CD</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="dash-module">
+        <div class="dash-module-title">🔒 Module 6: Launch & Growth</div>
+        <div class="dash-module-desc">Product Hunt, SEO, customer acquisition</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const html=document.documentElement;
+const savedTheme=localStorage.getItem('fos-theme')||'dark';
+html.setAttribute('data-theme',savedTheme);
+function toggleTheme(){const c=html.getAttribute('data-theme');const n=c==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('fos-theme',n)}
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring'),spotlight=document.getElementById('spotlight');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';spotlight.style.left=mx+'px';spotlight.style.top=my+'px'});
+function animateRing(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing)}
+animateRing();
+document.querySelectorAll('a,button,.feature-card,.pricing-card,.testimonial-card,.faq-question,.dash-nav-item,.dash-module,.timeline-item,.curriculum-card').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.style.width='5px';cursor.style.height='5px';ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(20,184,166,.55)'});el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(20,184,166,.35)'})});
+const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let particles=[];
+function getPCols(){const d=html.getAttribute('data-theme')==='dark';return d?['rgba(37,99,235,','rgba(20,184,166,','rgba(124,58,237,','rgba(248,250,252,']:['rgba(37,99,235,','rgba(13,148,136,','rgba(124,58,237,','rgba(100,116,139,']}
+function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+class Particle{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.4+.3;this.vx=(Math.random()-.5)*.28;this.vy=(Math.random()-.5)*.28;this.op=Math.random()*.35+.05}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}draw(cols){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=cols[Math.floor(Math.random()*cols.length)]+this.op+')';ctx.fill()}}
+for(let i=0;i<110;i++)particles.push(new Particle());
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);const c=getPCols();particles.forEach(p=>{p.update();p.draw(c)});requestAnimationFrame(animateParticles)}
+animateParticles();
+function tiltCard(e,card){const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;card.style.transform=`translateY(-6px) scale(1.012) perspective(900px) rotateX(${(y-.5)*7}deg) rotateY(${(x-.5)*-7}deg)`;card.style.setProperty('--mx',x*100+'%');card.style.setProperty('--my',y*100+'%')}
+document.querySelectorAll('.feature-card').forEach(c=>c.addEventListener('mouseleave',()=>{c.style.transform=''}));
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+window.addEventListener('scroll',()=>{const nav=document.getElementById('navbar');const d=html.getAttribute('data-theme')==='dark';nav.style.background=window.scrollY>50?(d?'rgba(11,11,16,.92)':'rgba(250,250,247,.95)'):(d?'rgba(11,11,16,.65)':'rgba(250,250,247,.75)')});
+function toggleFaq(btn){const item=btn.parentElement;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open')}
+function openModal(e){if(e)e.preventDefault();document.getElementById('authModal').classList.add('active');document.body.style.overflow='hidden'}
+function closeModal(){document.getElementById('authModal').classList.remove('active');document.body.style.overflow=''}
+function closeModalOutside(e){if(e.target===document.getElementById('authModal'))closeModal()}
+function switchTab(tab,btn){document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(tab).classList.add('active')}
+function openDashboard(){closeModal();setTimeout(()=>{document.getElementById('dashboard').classList.add('active');document.body.style.overflow='hidden'},220)}
+function closeDashboard(){document.getElementById('dashboard').classList.remove('active');document.body.style.overflow=''}
+function animateBars(){document.querySelectorAll('.mini-bar').forEach(b=>{const h=Math.random()*80+20;b.style.height=h+'%';h>68?b.classList.add('active'):b.classList.remove('active')})}
+setInterval(animateBars,2200);
+window.addEventListener('scroll',()=>{const y=window.scrollY;document.querySelectorAll('.geo-shape').forEach((el,i)=>{el.style.transform=`translateY(${y*(.04+i*.018)}px)`})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDashboard()}});
+</script>
+</body>
+</html>
